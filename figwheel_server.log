@@ -1,0 +1,523 @@
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[31mFailed to compile "target/cljsbuild/public/js/app.js" in 1.014 seconds.[0m
+[36m----  Could not Analyze  src/cljs/durak/core.cljs   line:13  column:1  ----[0m
+
+  [1mFirst argument to defn must be a symbol[0m
+
+  [33m13[0m  [1m(defn [][0m
+  [0m  [0m  [33m^--- First argument to defn must be a symbol[0m
+  [36m14[0m  [36m  (fn [][0m
+  [36m15[0m  [36m    [:div [:h2 "Durak"][0m
+  [36m16[0m  [36m     [:div.table "Table"][0m
+
+[36m----  Analysis Error : Please see src/cljs/durak/core.cljs  ----[0m
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[31mFailed to compile "target/cljsbuild/public/js/app.js" in 0.607 seconds.[0m
+[36m----  Could not Analyze  src/cljs/durak/core.cljs   line:13  column:1  ----[0m
+
+  [1mFirst argument to defn must be a symbol[0m
+
+  [33m13[0m  [1m(defn [][0m
+  [0m  [0m  [33m^--- First argument to defn must be a symbol[0m
+  [36m14[0m  [36m  (fn [][0m
+  [36m15[0m  [36m    [:div [:h2 "Durak"][0m
+  [36m16[0m  [36m     [:div.table "Table"[0m
+
+[36m----  Analysis Error : Please see src/cljs/durak/core.cljs  ----[0m
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[31mFailed to compile "target/cljsbuild/public/js/app.js" in 0.557 seconds.[0m
+[36m----  Could not Analyze  src/cljs/durak/core.cljs   line:23  column:3  ----[0m
+
+  [1mUnable to resolve var: page in this context at line 23 /Volumes/stuff/clojure/durak/src/cljs/durak/core.cljs[0m
+
+  [36m22[0m  [36m(defn mount-components [][0m
+  [33m23[0m  [1m  (r/render [#'page] (.getElementById js/document "app")))[0m
+  [0m  [0m  [33m  ^--- Unable to resolve var: page in this context at line 23 /Volumes/stuff/clojure/durak/src/cljs/durak/core.cljs[0m
+  [36m24[0m  [36m[0m
+  [36m25[0m  [36m(defn init! [][0m
+  [36m26[0m  [36m  (mount-components))[0m
+
+[36m----  Analysis Error : Please see src/cljs/durak/core.cljs  ----[0m
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 1.738 seconds.[0m
+notifying browser that file changed:  target/cljsbuild/public/js/out/goog/deps.js
+notifying browser that file changed:  target/cljsbuild/public/js/out/cljs_deps.js
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.674 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.616 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.55 seconds.[0m
+notifying browser that file changed:  target/cljsbuild/public/js/out/cljs_deps.js
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[36m----  Compiler Warning on   src/cljs/durak/core.cljs   line:24  column:4  ----[0m
+
+  [1mUse of undeclared Var reagent.session/put[0m
+
+  [36m20[0m  [36m(defn mount-components [][0m
+  [36m21[0m  [36m  (r/render [main] (.getElementById js/document "app")))[0m
+  [36m22[0m  [36m[0m
+  [36m23[0m  [36m(defn update-state! [{:keys [table hand]}][0m
+  [33m24[0m  [1m  (session/put :table table))[0m
+  [0m  [0m  [33m   ^--- Use of undeclared Var reagent.session/put[0m
+  [36m25[0m  [36m[0m
+  [36m26[0m  [36m(defn init! [][0m
+  [36m27[0m  [36m  (durak/make-websocket! (str "ws://" (.-host js/location) "/ws") update-state!)[0m
+  [36m28[0m  [36m  (mount-components))[0m
+
+[36m----  Compiler Warning : Please see src/cljs/durak/core.cljs  ----[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.579 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[36m----  Compiler Warning on   src/cljs/durak/core.cljs   line:25  column:4  ----[0m
+
+  [1mUse of undeclared Var reagent.session/put[0m
+
+  [36m21[0m  [36m(defn mount-components [][0m
+  [36m22[0m  [36m  (r/render [main] (.getElementById js/document "app")))[0m
+  [36m23[0m  [36m[0m
+  [36m24[0m  [36m(defn update-state! [{:keys [table hand]}][0m
+  [33m25[0m  [1m  (session/put :table table))[0m
+  [0m  [0m  [33m   ^--- Use of undeclared Var reagent.session/put[0m
+  [36m26[0m  [36m[0m
+  [36m27[0m  [36m(defn init! [][0m
+  [36m28[0m  [36m  (durak/make-websocket! (str "ws://" (.-host js/location) "/ws") update-state!)[0m
+  [36m29[0m  [36m  (mount-components))[0m
+
+[36m----  Compiler Warning : Please see src/cljs/durak/core.cljs  ----[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.831 seconds.[0m
+notifying browser that file changed:  target/cljsbuild/public/js/out/goog/deps.js
+notifying browser that file changed:  target/cljsbuild/public/js/out/cljs_deps.js
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.747 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.624 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.592 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.719 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.581 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.656 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.577 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.618 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.543 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.703 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.632 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.595 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.529 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.53 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.597 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.513 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.515 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.524 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.495 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.619 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.504 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.588 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.564 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.573 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.512 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[36m----  Compiler Warning on   src/cljs/durak/core.cljs   line:9  column:8  ----[0m
+
+  [1mUse of undeclared Var durak.core/values[0m
+
+  [36m 5[0m  [36m            [ajax.core :refer [GET POST]][0m
+  [36m 6[0m  [36m            [durak.durak :as durak]))[0m
+  [36m 7[0m  [36m[0m
+  [36m 8[0m  [36m(defn card [value][0m
+  [33m 9[0m  [1m  (prn values)[0m
+  [0m  [0m  [33m       ^--- Use of undeclared Var durak.core/values[0m
+  [36m10[0m  [36m  [:div.card (str (:rank card) (:suit card))])[0m
+  [36m11[0m  [36m[0m
+  [36m12[0m  [36m(defn table-info [table][0m
+  [36m13[0m  [36m  [:div.info "table info"[0m
+  [36m14[0m  [36m   [:div.deck "Deck: " (count (:deck table))][0m
+
+[36m----  Compiler Warning : Please see src/cljs/durak/core.cljs  ----[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.502 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.604 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.468 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.551 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.482 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.561 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.577 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.479 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.464 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.508 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.496 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.53 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.477 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.473 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.482 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.493 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.543 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.537 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.477 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.516 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[36m----  Compiler Warning on   src/cljs/durak/core.cljs   line:21  column:9  ----[0m
+
+  [1mUse of undeclared Var durak.core/oponent[0m
+
+  [36m17[0m  [36m(defn main [][0m
+  [36m18[0m  [36m  (fn [][0m
+  [36m19[0m  [36m    (let [table (session/get :table)][0m
+  [36m20[0m  [36m      [:div [:h2 "Durak"][0m
+  [33m21[0m  [1m       [oponent (session/get :opponent)][0m
+  [0m  [0m  [33m        ^--- Use of undeclared Var durak.core/oponent[0m
+  [36m22[0m  [36m       [:div.table "Table"[0m
+  [36m23[0m  [36m        (if-not (empty? table) [table-info table])][0m
+  [36m24[0m  [36m       [:div.cards[0m
+  [36m25[0m  [36m        [:div.attacking (:attacking table)][0m
+  [36m26[0m  [36m        [:div.beat (:beat table)]][0m
+
+[36m----  Compiler Warning : Please see src/cljs/durak/core.cljs  ----[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.573 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[36m----  Compiler Warning on   src/cljs/durak/core.cljs   line:19  column:35  ----[0m
+
+  [1mUse of undeclared Var durak.core/opponent[0m
+
+  [36m15[0m  [36m   [:div.trump "Trump: " [card (:trump-card table)]]])[0m
+  [36m16[0m  [36m[0m
+  [36m17[0m  [36m(defn oponent [op-info][0m
+  [36m18[0m  [36m  [:div.opponent[0m
+  [33m19[0m  [1m   [:div.status "Status" (:status opponent)]])[0m
+  [0m  [0m  [33m                                  ^--- Use of undeclared Var durak.core/opponent[0m
+  [36m20[0m  [36m[0m
+  [36m21[0m  [36m[0m
+  [36m22[0m  [36m(defn main [][0m
+  [36m23[0m  [36m  (fn [][0m
+  [36m24[0m  [36m    (let [table (session/get :table)][0m
+
+[36m----  Compiler Warning : Please see src/cljs/durak/core.cljs  ----[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.523 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[36m----  Compiler Warning on   src/cljs/durak/core.cljs   line:19  column:35  ----[0m
+
+  [1mUse of undeclared Var durak.core/opponent[0m
+
+  [36m15[0m  [36m   [:div.trump "Trump: " [card (:trump-card table)]]])[0m
+  [36m16[0m  [36m[0m
+  [36m17[0m  [36m(defn oponent [op-info][0m
+  [36m18[0m  [36m  [:div.opponent[0m
+  [33m19[0m  [1m   [:div.status "Status" (:status opponent)]])[0m
+  [0m  [0m  [33m                                  ^--- Use of undeclared Var durak.core/opponent[0m
+  [36m20[0m  [36m[0m
+  [36m21[0m  [36m(defn ready [_][0m
+  [36m22[0m  [36m  (durak/send-transit-msg! {:type :ready})[0m
+  [36m23[0m  [36m  (session/put :status :ready))[0m
+
+[36m----  Compiler Warning : Please see src/cljs/durak/core.cljs  ----[0m
+[36m----  Compiler Warning on   src/cljs/durak/core.cljs   line:23  column:4  ----[0m
+
+  [1mUse of undeclared Var reagent.session/put[0m
+
+  [36m19[0m  [36m   [:div.status "Status" (:status opponent)]])[0m
+  [36m20[0m  [36m[0m
+  [36m21[0m  [36m(defn ready [_][0m
+  [36m22[0m  [36m  (durak/send-transit-msg! {:type :ready})[0m
+  [33m23[0m  [1m  (session/put :status :ready))[0m
+  [0m  [0m  [33m   ^--- Use of undeclared Var reagent.session/put[0m
+  [36m24[0m  [36m[0m
+  [36m25[0m  [36m[0m
+  [36m26[0m  [36m(defn main [][0m
+  [36m27[0m  [36m  (fn [][0m
+  [36m28[0m  [36m    (let [table (session/get :table)][0m
+
+[36m----  Compiler Warning : Please see src/cljs/durak/core.cljs  ----[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.552 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[36m----  Compiler Warning on   src/cljs/durak/core.cljs   line:23  column:4  ----[0m
+
+  [1mUse of undeclared Var reagent.session/put[0m
+
+  [36m19[0m  [36m   [:div.status "Status" (:status op-info)]])[0m
+  [36m20[0m  [36m[0m
+  [36m21[0m  [36m(defn ready [_][0m
+  [36m22[0m  [36m  (durak/send-transit-msg! {:type :ready})[0m
+  [33m23[0m  [1m  (session/put :status :ready))[0m
+  [0m  [0m  [33m   ^--- Use of undeclared Var reagent.session/put[0m
+  [36m24[0m  [36m[0m
+  [36m25[0m  [36m[0m
+  [36m26[0m  [36m(defn main [][0m
+  [36m27[0m  [36m  (fn [][0m
+  [36m28[0m  [36m    (let [table (session/get :table)][0m
+
+[36m----  Compiler Warning : Please see src/cljs/durak/core.cljs  ----[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.565 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.478 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.54 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.482 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.518 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.466 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[36m----  Compiler Warning on   src/cljs/durak/core.cljs   line:52  column:25  ----[0m
+
+  [1mUse of undeclared Var durak.core/status[0m
+
+  [36m48[0m  [36m  (prn table hand opponent)[0m
+  [36m49[0m  [36m  (session/put! :opponent opponent)[0m
+  [36m50[0m  [36m  (session/put! :table table)[0m
+  [36m51[0m  [36m  (session/put! :hand hand)[0m
+  [33m52[0m  [1m  (session/put! :status status))[0m
+  [0m  [0m  [33m                        ^--- Use of undeclared Var durak.core/status[0m
+  [36m53[0m  [36m[0m
+  [36m54[0m  [36m(defn init! [][0m
+  [36m55[0m  [36m  (durak/make-websocket! (str "ws://" (.-host js/location) "/ws") update-state!)[0m
+  [36m56[0m  [36m  (mount-components))[0m
+
+[36m----  Compiler Warning : Please see src/cljs/durak/core.cljs  ----[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.565 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.477 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.521 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.484 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.525 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.485 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[31mFailed to compile "target/cljsbuild/public/js/app.js" in 0.366 seconds.[0m
+[36m----  Could not Analyze  src/cljs/durak/core.cljs   line:35  column:8  ----[0m
+
+  [1mToo few arguments to if at line 35 /Volumes/stuff/clojure/durak/src/cljs/durak/core.cljs[0m
+
+  [36m33[0m  [36m    status (session/get :status)][0m
+  [36m34[0m  [36m[:div [:h2 "Durak"][0m
+  [33m35[0m  [1m (if )[0m
+  [0m  [0m  [33m ^--- Too few arguments to if at line 35 /Volumes/stuff/clojure/durak/src/cljs/durak/core.cljs[0m
+  [36m36[0m  [36m [oponent (session/get :opponent)][0m
+  [36m37[0m  [36m [:div.table "Table"[0m
+  [36m38[0m  [36m  ()[0m
+
+[36m----  Analysis Error : Please see src/cljs/durak/core.cljs  ----[0m
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.538 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.517 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[36m----  Compiler Warning on   src/cljs/durak/core.cljs   line:44  column:19  ----[0m
+
+  [1mWrong number of args (0) passed to :attacking[0m
+
+  [36m40[0m  [36m  (or (empty? (:beat table))[0m
+  [36m41[0m  [36m      ((get-beat-ranks table) (:rank card))))[0m
+  [36m42[0m  [36m[0m
+  [36m43[0m  [36m(defn valid-defence? [card table][0m
+  [33m44[0m  [1m  (let [attacking (:attacking )])[0m
+  [0m  [0m  [33m                  ^--- Wrong number of args (0) passed to :attacking[0m
+  [36m45[0m  [36m  (and ()))[0m
+  [36m46[0m  [36m[0m
+  [36m47[0m  [36m(defn hand [cards turn status][0m
+  [36m48[0m  [36m  [:div.hand "Your Hand:"[0m
+  [36m49[0m  [36m   [:div.cards[0m
+
+[36m----  Compiler Warning : Please see src/cljs/durak/core.cljs  ----[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.54 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[36m----  Compiler Warning on   src/cljs/durak/core.cljs   line:60  column:32  ----[0m
+
+  [1mUse of undeclared Var durak.core/f[0m
+
+  [36m56[0m  [36m     (fn [i c][0m
+  [36m57[0m  [36m       (let [f (if turn[0m
+  [36m58[0m  [36m                 #(js/alert c)[0m
+  [36m59[0m  [36m                 #(js/alert "It is not your turn"))])[0m
+  [33m60[0m  [1m       [:span {:key i} [card c f]])[0m
+  [0m  [0m  [33m                               ^--- Use of undeclared Var durak.core/f[0m
+  [36m61[0m  [36m     cards)]])[0m
+  [36m62[0m  [36m[0m
+  [36m63[0m  [36m[0m
+  [36m64[0m  [36m(defn main [][0m
+  [36m65[0m  [36m  (fn [][0m
+
+[36m----  Compiler Warning : Please see src/cljs/durak/core.cljs  ----[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.555 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.536 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.504 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[36m----  Compiler Warning on   src/cljs/durak/core.cljs   line:64  column:18  ----[0m
+
+  [1mWrong number of args (2) passed to durak.core/get-card-fn[0m
+
+  [36m60[0m  [36m[:div.cards[0m
+  [36m61[0m  [36m (map-indexed[0m
+  [36m62[0m  [36m  (fn [i c][0m
+  [36m63[0m  [36m    (let [f (if turn[0m
+  [33m64[0m  [1m              (get-card-fn c status)[0m
+  [0m  [0m  [33m              ^--- Wrong number of args (2) passed to durak.core/get-card-fn[0m
+  [36m65[0m  [36m              #(js/alert "It is not your turn"))][0m
+  [36m66[0m  [36m      [:span {:key i} [card c f]]))[0m
+  [36m67[0m  [36m  cards)][0m
+  [36m68[0m  [36m[:div.action[0m
+  [36m69[0m  [36m (case status[0m
+
+[36m----  Compiler Warning : Please see src/cljs/durak/core.cljs  ----[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.58 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[36m----  Compiler Warning on   src/cljs/durak/core.cljs   line:69  column:18  ----[0m
+
+  [1mWrong number of args (2) passed to durak.core/get-card-fn[0m
+
+  [36m65[0m  [36m[:div.cards[0m
+  [36m66[0m  [36m (map-indexed[0m
+  [36m67[0m  [36m  (fn [i c][0m
+  [36m68[0m  [36m    (let [f (if turn[0m
+  [33m69[0m  [1m              (get-card-fn c status)[0m
+  [0m  [0m  [33m              ^--- Wrong number of args (2) passed to durak.core/get-card-fn[0m
+  [36m70[0m  [36m              #(js/alert "It is not your turn"))][0m
+  [36m71[0m  [36m      [:span {:key i} [card c f]]))[0m
+  [36m72[0m  [36m  cards)][0m
+  [36m73[0m  [36m[:div.action[0m
+  [36m74[0m  [36m (case status[0m
+
+[36m----  Compiler Warning : Please see src/cljs/durak/core.cljs  ----[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.573 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.605 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.553 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 1.125 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.586 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.96 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.536 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.53 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
+[0mCompiling "target/cljsbuild/public/js/app.js" from ["src/cljs" "src/cljc" "env/dev/cljs"]...[0m
+[32mSuccessfully compiled "target/cljsbuild/public/js/app.js" in 0.523 seconds.[0m
+notifying browser that file changed:  out/durak/core.js
