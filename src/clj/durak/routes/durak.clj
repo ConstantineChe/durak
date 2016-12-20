@@ -45,7 +45,7 @@
 (defn new-table! []
   (dosync
    (alter table assoc :deck (new-deck))
-   (let [trump (first (:deck @table))]
+   (let [trump (last (:deck @table))]
      (alter table assoc :trump-card trump))))
 
 (defn set-attacker [attacker defender]
@@ -54,7 +54,7 @@
 
 (defn switch-turn! []
   (doseq [[player-channel] @players]
-    (alter players update-in [player-channel :turn] not)))
+    (dosync (alter players update-in [player-channel :turn] not))))
 
 (defn get-lowest-trump [hand trump]
   (apply min (concat [99]
@@ -97,10 +97,10 @@
     (if (not= (:lowest-trump player1) (:lowest-trump player2))
       (if (> (:lowest-trump player1) (:lowest-trump player2))
         (set-attacker (:channel  player2) (:channel  player1))
-        (set-attacker (:channel  player1) (:channel  player2)))))
-      (if (> (:total-rank player2) (:total-rank player1))
-        (set-attacker (:channel  player2) (:channel  player1))
         (set-attacker (:channel  player1) (:channel  player2))))
+    (if (> (:total-rank player2) (:total-rank player1))
+      (set-attacker (:channel  player2) (:channel  player1))
+      (set-attacker (:channel  player1) (:channel  player2)))))
 
 (defn set-opponents! []
   (doseq [[channel] @players]
@@ -110,9 +110,9 @@
       )))
 
 (defn refill-hands! [attacker-channel defender-channel]
-  (doseq [[channel] [(get @players attacker-channel) (get @players defender-channel)]]
-    (while (or (< 6 (-> @players channel hand count))
-               (-> @table :deck empty?))
+  (doseq [channel [attacker-channel defender-channel]]
+    (while (not (or (< 6 (-> @players (get channel) :hand count))
+                 (-> @table :deck empty?)))
       (pick-card! channel))))
 
 (defn put-card! [card player-channel]
@@ -186,8 +186,8 @@
                 (switch-turn!)
                 (notify-players!))
       :beat-card (do (beat-card! card sender-channel)
-                     (if (or (empty? (-> @players sender-channel :hand))
-                             (empty? (-> @players opponent-channel :hand)))
+                     (if (or (empty? (-> @players (get sender-channel) :hand))
+                             (empty? (-> @players (get opponent-channel) :hand)))
                        (do (refill-hands! opponent-channel sender-channel)
                            (set-attacker sender-channel opponent-channel)
                            (notify-players!))

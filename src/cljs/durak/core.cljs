@@ -92,8 +92,11 @@
         ()
         (if-not (empty? table) [table-info table])]
        [:div.cards
-        [:div.attacking (if (:attacking table) [card (:attacking table)])]
-        [:div.beat (:beat table)]]
+        [:div.attacking "Attack: " (if (:attacking table) [card (:attacking table)])]
+        [:div.beat "Beat: " (if-not (empty? (:beat table))
+                     (map-indexed (fn [i beat-card]
+                                    [card beat-card #(prn card)])
+                          (:beat table)))]]
        [hand (session/get :hand) (session/get :turn) (session/get :status) table]]
       )))
 
