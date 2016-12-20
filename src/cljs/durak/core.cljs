@@ -3,7 +3,8 @@
             [reagent.session :as session]
             [durak.ajax :refer [load-interceptors!]]
             [ajax.core :refer [GET POST]]
-            [durak.durak :as durak]))
+            [durak.durak :as durak]
+            [durak.validation :refer [valid-defence? valid-attack?]]))
 
 (defn card [card f]
   [:span {:on-click f} (str (name (:rank card)) (name (:suit card)) "  ")])
@@ -33,31 +34,17 @@
 (defn invalid-card [card]
   (fn [_] (js/alert (str "You can't use " (name (:rank card)) (name (:suit card))))))
 
-(defn get-beat-ranks [{:keys [beat]}]
-  (set (map :rank beat)))
-
-(defn valid-attack? [card table]
-  (or (empty? (:beat table))
-      ((get-beat-ranks table) (:rank card))))
-
-(defn valid-defence? [card table]
-  (let [attacking (:attacking table)
-        trump (:suit (:trump-card table))]
-    (and (or (= (:suit card) (:suit attacking)) (= (:suit card)) trump)
-         (if (= (:suit attacking))
-           (> (:rank card) (:rank attacking))
-           (or (= (:suit card) trump)
-               (> (:rank card) (:rank attacking)))))))
-
 (defn get-card-fn [card status table]
   (case status
     :defending (if (valid-defence? card table)
                  #(durak/send-transit-msg! {:type :defence
-                                            :msg card})
+                                            :msg {:action :beat-card
+                                                  :card  card}})
                  invalid-card)
     :attacking (if (valid-defence? card table)
                  #(durak/send-transit-msg! {:type :attack
-                                            :msg card})
+                                            :msg {:action :put-card
+                                                  :card  card}})
                  invalid-card)
     #(js/alert "none")))
 
@@ -77,7 +64,7 @@
                            {:on-click
                             #(durak/send-transit-msg!
                               {:type :attack
-                               :msg :pass})}
+                               :msg {:action :pass}})}
                            (if-not turn
                              {:disabled true}))
                "Pass"]
@@ -85,7 +72,7 @@
                            {:on-click
                              #(durak/send-transit-msg!
                                {:type :defence
-                                :msg :take})}
+                                :msg {:action :take}})}
                            (if-not turn
                              {:disabled true}))
                   "Take"]

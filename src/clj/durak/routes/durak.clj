@@ -2,13 +2,10 @@
   (:require [compojure.core :refer [GET defroutes wrap-routes]]
             [clojure.tools.logging :as log]
             [immutant.web.async :as async]
-            [cognitect.transit :as t])
+            [cognitect.transit :as t]
+            [durak.validation :refer [card-ranks card-suits get-numeric-rank]])
   (import [java.io ByteArrayInputStream ByteArrayOutputStream]))
 
-
-(def card-ranks [:6 :7 :8 :9 :10 :J :Q :K :A])
-
-(def card-suits [:clubs :diaminds :hearts :spades])
 
 (defonce table (ref {}))
 
@@ -39,19 +36,33 @@
   (shuffle (for [suit card-suits rank card-ranks]
              {:suit suit :rank rank})))
 
-
-(defn pick-card [target]
+(defn pick-card! [target]
   (dosync
    (let [card (first (:deck @table))]
      (alter table assoc :deck (rest (:deck @table)))
      (alter players update-in [target :hand] conj card))))
 
-(defn new-table []
+(defn new-table! []
   (dosync
    (alter table assoc :deck (new-deck))
    (let [trump (first (:deck @table))]
      (alter table assoc :trump-card trump))))
 
+(defn set-attacker [attacker defender]
+  (dosync (alter players update attacker assoc :turn true :status :attacking)
+          (alter players update defender assoc :turn false :status :defending)))
+
+(defn switch-turn! []
+  (doseq [[player-channel] @players]
+    (alter players update-in [player-channel :turn] not)))
+
+(defn get-lowest-trump [hand trump]
+  (apply min (concat [99]
+                     (map (fn [card]
+                            (get-numeric-rank card))
+                          (filter (fn [card]
+                                    (= (:suit card) trump))
+                                  hand)))))
 
 (defn connect! [channel]
   (swap! channels conj channel))
@@ -60,106 +71,138 @@
   (log/info "close code:" code "reason:" reason)
   (swap! channels #(remove #{channel} %)))
 
+(defn send-transit-message! [channel message]
+  (->> (write-transit message) (async/send! channel)))
+
+(defn notify-players! []
+  (doseq [[channel player] @players]
+    (let [opponent (-> @players player :opponent)]
+      (send-transit-message! channel
+                             {:table @table
+                              :hand (:hand player)
+                              :status (:status player)
+                              :turn (:turn player)
+                              :opponent {:status (:status opponent)
+                                         :hand (count (:hand opponent))}}))))
+
 (defn set-first-turn! []
   (let [trump (:suit (:trump-card @table))
-        [p1 p2] (map (fn [[chan data]]
-                       {:player chan
-                        :lowest-trump (apply min (concat [99]
-                                                   (map (fn [c]
-                                                          (.indexOf card-ranks (:rank c)))
-                                                        (filter (fn [c]
-                                                                  (= (:suit c) trump))
-                                                                (:hand data)))))
-                        :total-rank (reduce + (map (fn [c]
-                                                     (.indexOf card-ranks (:rank c)))
-                                                   (:hand data)))})
+        [player1 player2] (map (fn [[channel player-state]]
+                       {:channel      channel
+                        :lowest-trump (get-lowest-trump (:hand player-state) trump)
+                        :total-rank   (reduce + (map (fn [card]
+                                                     (get-numeric-rank card))
+                                                   (:hand player-state)))})
                      @players)]
-    (if (not= (:lowest-trump p1) (:lowest-trump p2))
-      (if (> (:lowest-trump p1) (:lowest-trump p2))
-        (dosync
-         (alter players update (:player p2) assoc :turn true :status :attacking)
-         (alter players update (:player p1) assoc :turn false :status :defending))
-        (dosync
-         (alter players update (:player p2) assoc :turn false :status :defending)
-         (alter players update (:player p1) assoc :turn true :status :attacking)))
-      (if (> (:total-rank p2) (:total-rank p1))
-                (dosync
-         (alter players update (:player p2) assoc :turn true :status :attacking)
-         (alter players update (:player p1) assoc :turn false :status :defending))
-        (dosync
-         (alter players update (:player p2) assoc :turn false :status :defending)
-         (alter players update (:player p1) assoc :turn true :status :attacking))))
-    ))
+    (if (not= (:lowest-trump player1) (:lowest-trump player2))
+      (if (> (:lowest-trump player1) (:lowest-trump player2))
+        (set-attacker (:channel  player2) (:channel  player1))
+        (set-attacker (:channel  player1) (:channel  player2)))))
+      (if (> (:total-rank player2) (:total-rank player1))
+        (set-attacker (:channel  player2) (:channel  player1))
+        (set-attacker (:channel  player1) (:channel  player2))))
 
+(defn set-opponents! []
+  (doseq [[channel] @players]
+    (let [player (get @players channel)
+          [opponent-channel] (first (dissoc @players channel))]
+      (dosync (alter players update channel assoc :opponent opponent-channel))
+      )))
+
+(defn refill-hands! [attacker-channel defender-channel]
+  (doseq [[channel] [(get @players attacker-channel) (get @players defender-channel)]]
+    (while (or (< 6 (-> @players channel hand count))
+               (-> @table :deck empty?))
+      (pick-card! channel))))
+
+(defn put-card! [card player-channel]
+  (dosync (alter players update-in [player-channel :hand]
+                 (fn [cards]
+                   (->> (set cards)
+                        (remove #{card})
+                        (vec))))
+          (alter table assoc :attacking card)))
+
+(defn take-cards! [player-channel]
+  (dosync (alter players update-in [player-channel :hand]
+                 (fn [hand] (concat hand (:attacking @table) (:beat @table))))
+          (alter table assoc :attacking nil :beat [])))
+
+(defn beat-card! [card player-channel]
+  (dosync (alter players update-in [player-channel :hand]
+                 (fn [cards]
+                   (->> (set cards)
+                        (remove #{card})
+                        (vec))))
+          (alter table (fn [table]
+                         (-> table
+                             (update :beat concat [card (:attacking table)])
+                             (assoc :attacking nil))))))
+
+(defn discard-beat! []
+  (dosync (alter table assoc :beat [])))
 
 (defn init-game! []
-  (new-table)
-  (doseq [[chan data] @players]
-    (doall (repeatedly 6 #(pick-card chan))))
+  (new-table!)
+  (apply refill-hands! (keys @players))
   (set-first-turn!)
-  (doseq [[chan data] @players]
-    (let [player (get @players chan)
-          [op-chan opponent] (first (dissoc @players chan))]
-      (dosync (alter players update chan assoc :opponent op-chan))
-      (async/send! chan (write-transit
-                         {:table @table
-                          :hand (:hand player)
-                          :status (:status player)
-                          :turn (:turn player)
-                          :opponent {:status (:status opponent)
-                                     :hand (count (:hand opponent))}})))))
+  (set-opponents!)
+  (notify-players!))
 
-(defmulti process-msg!
-  (fn [_ msg] (:type (read-transit msg))))
+(defmulti process-message!
+          (fn [_ message] (:type message)))
 
-(defmethod process-msg! :ready [chan msg]
+(defmethod process-message! :ready [chan _]
   (when (< (count @players) 2)
     (dosync (alter players assoc chan {:hand []}))
     (if (= 2 (count @players))
       (dosync (alter players assoc chan {:hand []})
               (init-game!))
       (doseq [channel @channels]
-        (async/send! channel (write-transit
-                              {:table @table
-                               :hand []
-                               :opponent (if-not (= channel chan) {:status :ready})}))))))
+        (send-transit-message! channel
+                               {:table @table
+                                :hand []
+                                :opponent (if-not (= channel chan) {:status :ready})})))))
 
-(defmethod process-msg! :attack [chan msg]
+(defmethod process-message! :attack [sender-channel {:keys [msg]}]
   (prn "attack")
-  (let [msg (:msg (read-transit msg))
-        op-chan (:opponent (get @players chan))
-        player (get @players chan)
-        opponent (get @players op-chan)]
-    (if (= :pass msg)
-      (dosync (alter players update chan assoc :turn false :status :defending)
-              (alter players update op-chan assoc :turn true :status :attacking)
-              (doseq [channel @channels]
-                (async/send! channel (write-transit
-                                      {:table @table
-                                       :hand (:hand player)
-                                       :status (:status player)
-                                       :turn (:turn player)
-                                       :opponent {:status (:status opponent)
-                                                  :hand (count (:hand opponent))}}))))
-      (let [card (:card msg)]
-        (dosync (alter players update-in [chan :hand] #(vec (remove #{card} (set %))))
-                (alter table assoc :attacking card))))))
+  (let [opponent-channel (:opponent (get @players sender-channel))
+        {:keys [action card]} msg]
+    (case action
+      :pass (do (discard-beat!)
+                (refill-hands! sender-channel opponent-channel)
+                (set-attacker opponent-channel sender-channel)
+                (notify-players!))
+      :put-card (do (put-card! card sender-channel)
+                    (switch-turn!)
+                    (notify-players!)))))
 
-(defmethod process-msg! :defence [chan msg]
-  (prn )
-  (let [msg (:msg (read-transit msg))
-        op-chan (:opponent (get @players chan))]
-    (if (= :take msg)
-      (dosync (alter players update-in [chan :hand]
-                     #(concat % (:attacking @table) (:beat @table)))
-              (alter table assoc :attacking nil :beat [])))))
+(defmethod process-message! :defence [sender-channel {:keys [msg]}]
+  (prn "def")
+  (let [opponent-channel (:opponent (get @players sender-channel))
+        {:keys [action card]} msg]
+    (case action
+      :take (do (take-cards! sender-channel)
+                (switch-turn!)
+                (notify-players!))
+      :beat-card (do (beat-card! card sender-channel)
+                     (if (or (empty? (-> @players sender-channel :hand))
+                             (empty? (-> @players opponent-channel :hand)))
+                       (do (refill-hands! opponent-channel sender-channel)
+                           (set-attacker sender-channel opponent-channel)
+                           (notify-players!))
+                       (do (switch-turn!)
+                           (notify-players!)))
+                     ))))
 
 
 (def websocket-callbacks
   "WebSocket callback functions"
   {:on-open connect!
    :on-close disconnect!
-   :on-message process-msg!})
+   :on-message (fn [channel message]
+                 (->> (read-transit message)
+                      (process-message! channel)))})
 
 (defn ws-handler [request]
   (async/as-channel request websocket-callbacks))
