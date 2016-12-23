@@ -20,8 +20,10 @@
   (let [card-rank (get-numeric-rank card)
         attacking-card-rank (get-numeric-rank attacking)
         trump (:suit trump-card)]
-    (and (or (= (:suit card) (:suit attacking)) (= (:suit card)) trump)
-         (if (= (:suit attacking))
-           (> card-rank attacking-card-rank))
+    (and (or (= (:suit card) (:suit attacking)) (= (:suit card) trump))
+         (if (= (:suit attacking) trump)
+           (> card-rank attacking-card-rank)
            (or (= (:suit card) trump)
-               (> card-rank  attacking-card-rank)))))
+               (> card-rank  attacking-card-rank)))
+           )))
+

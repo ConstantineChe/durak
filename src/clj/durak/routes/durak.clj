@@ -75,15 +75,16 @@
   (->> (write-transit message) (async/send! channel)))
 
 (defn notify-players! []
-  (doseq [[channel player] @players]
-    (let [opponent (-> @players player :opponent)]
+  (doseq [[channel {:keys [hand status turn opponent]}] @players]
+    (let [opponent (into {} (get @players opponent))]
       (send-transit-message! channel
                              {:table @table
-                              :hand (:hand player)
-                              :status (:status player)
-                              :turn (:turn player)
+                              :hand hand
+                              :status status
+                              :turn turn
                               :opponent {:status (:status opponent)
-                                         :hand (count (:hand opponent))}}))))
+                                         :hand (count (:hand opponent))}}))
+))
 
 (defn set-first-turn! []
   (let [trump (:suit (:trump-card @table))
@@ -109,31 +110,30 @@
       (dosync (alter players update channel assoc :opponent opponent-channel))
       )))
 
+(defn remove-card! [card player]
+  (alter players update-in [player :hand]
+         (fn [cards]
+           (->> (set cards)
+                (remove #{card})
+                (vec)))))
+
 (defn refill-hands! [attacker-channel defender-channel]
   (doseq [channel [attacker-channel defender-channel]]
-    (while (not (or (< 6 (-> @players (get channel) :hand count))
+    (while (not (or (< 5 (-> @players (get channel) :hand count))
                  (-> @table :deck empty?)))
       (pick-card! channel))))
 
 (defn put-card! [card player-channel]
-  (dosync (alter players update-in [player-channel :hand]
-                 (fn [cards]
-                   (->> (set cards)
-                        (remove #{card})
-                        (vec))))
+  (dosync (remove-card! card player-channel)
           (alter table assoc :attacking card)))
 
 (defn take-cards! [player-channel]
   (dosync (alter players update-in [player-channel :hand]
-                 (fn [hand] (concat hand (:attacking @table) (:beat @table))))
+                 (fn [hand] (concat hand [(:attacking @table)] (:beat @table))))
           (alter table assoc :attacking nil :beat [])))
 
 (defn beat-card! [card player-channel]
-  (dosync (alter players update-in [player-channel :hand]
-                 (fn [cards]
-                   (->> (set cards)
-                        (remove #{card})
-                        (vec))))
+  (dosync (remove-card! card player-channel)
           (alter table (fn [table]
                          (-> table
                              (update :beat concat [card (:attacking table)])
@@ -145,8 +145,8 @@
 (defn init-game! []
   (new-table!)
   (apply refill-hands! (keys @players))
-  (set-first-turn!)
   (set-opponents!)
+  (set-first-turn!)
   (notify-players!))
 
 (defmulti process-message!
@@ -183,6 +183,7 @@
         {:keys [action card]} msg]
     (case action
       :take (do (take-cards! sender-channel)
+                (refill-hands! opponent-channel sender-channel)
                 (switch-turn!)
                 (notify-players!))
       :beat-card (do (beat-card! card sender-channel)

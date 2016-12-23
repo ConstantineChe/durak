@@ -20,10 +20,6 @@
    [:div.status "Opponent status: " (:status op-info)]
    [:div.hand "Opponent hand: " (:hand op-info) " cards"]])
 
-(defn attack [card]
-  (durak/send-transit-msg! {:type :attack
-                            :card card}))
-
 (defn ready [_]
   (durak/send-transit-msg! {:type :ready})
   (session/put! :status :ready))
@@ -40,12 +36,12 @@
                  #(durak/send-transit-msg! {:type :defence
                                             :msg {:action :beat-card
                                                   :card  card}})
-                 invalid-card)
-    :attacking (if (valid-defence? card table)
+                 (invalid-card card))
+    :attacking (if (valid-attack? card table)
                  #(durak/send-transit-msg! {:type :attack
                                             :msg {:action :put-card
                                                   :card  card}})
-                 invalid-card)
+                 (invalid-card card))
     #(js/alert "none")))
 
 (defn hand [cards turn status table]
@@ -83,7 +79,7 @@
   (fn []
     (let [table (session/get :table)
           status (session/get :status)]
-      [:div [:h2 "Durak"]
+      [:div [:h2 "D"]
        (if (session/get :turn)
          [:div.turn [:h3 "Your turn"]]
          [:div.turn [:h3 "opponents turn"]])
@@ -92,20 +88,23 @@
         ()
         (if-not (empty? table) [table-info table])]
        [:div.cards
-        [:div.attacking "Attack: " (if (:attacking table) [card (:attacking table)])]
+        [:div.attacking "Attack: " (if (session/get-in [:table :attacking])
+                                     [card (session/get-in [:table :attacking])
+                                      #(js/alert card)])]
         [:div.beat "Beat: " (if-not (empty? (:beat table))
-                     (map-indexed (fn [i beat-card]
-                                    [card beat-card #(prn card)])
-                          (:beat table)))]]
-       [hand (session/get :hand) (session/get :turn) (session/get :status) table]]
-      )))
+                              (map-indexed (fn [i beat-card]
+                                             [:span {:key i} [card beat-card #(js/alert card)]] )
+                                           (:beat table)))]]
+       [hand (session/get :hand) (session/get :turn) status table]]
+      )
+    ))
 
 
 (defn mount-components []
   (r/render [main] (.getElementById js/document "app")))
 
-(defn update-state! [{:keys [table hand opponent status turn]}]
-  (prn table hand opponent status)
+(defn update-state! [{:keys [table hand opponent status turn] :as msg}]
+;;  (prn msg)
   (session/put! :turn turn)
   (session/put! :opponent opponent)
   (session/put! :table table)
