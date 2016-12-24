@@ -6,21 +6,23 @@
             [durak.durak :as durak]
             [durak.validation :refer [valid-defence? valid-attack?]]))
 
-(defn card [card f]
-  [:span {:on-click f} (str (name (:rank card)) (name (:suit card)) "  ")])
+(defn card [card f & [styles]]
+  [:img {:src (.toLowerCase (str "img/" (name (:rank card)) (name (:suit card)) ".JPG"))
+         :on-click f}])
 
 (defn table-info [table]
   [:div.info
    [:div.deck "Deck: " (count (:deck table))]
 ;   [:div.debug (str "table: " table)]
-   [:div.trump "Trump: " [card (:trump-card table)]]])
+   [:div.trump "Trump: " [card  (:trump-card table)]]])
 
 (defn oponent [op-info]
   [:div.opponent
    [:div.status "Opponent status: " (:status op-info)]
    [:div.hand "Opponent hand: " (:hand op-info) " cards"]])
 
-(defn ready [_]
+(defn
+  ready [_]
   (durak/send-transit-msg! {:type :ready})
   (session/put! :status :ready))
 
